@@ -1,27 +1,26 @@
 package elf.dire.pages;
 
-import com.ibs.ui.base_page.BasePage;
-import io.qameta.allure.Step;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
+import elf.dire.pages.base_page.BasePage;
 
-import static org.junit.Assert.assertTrue;
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class HomePage extends BasePage {
-//    @FindBy(xpath = "//a[@class='navbar-brand']")
-//    private WebElement homePageTitle;
-//    @FindBy(xpath = "//a[@id='navbarDropdown']")
-//    private WebElement sandboxDropdown;
-//    @FindBy(xpath = "//a[@class='dropdown-item' and @href='/food']")
-//    private WebElement dropdownItemGoods;
+    private final Locator homePageTitle = page.locator("//a[@class='navbar-brand']");
+    private final Locator sandBoxDropdown = page.locator("//a[@id='navbarDropdown']");
+    private final Locator dropdownGoods = page.locator("//a[@class='dropdown-item' and @href='/food']");
+
+    public HomePage(Page page) {
+        super(page);
+    }
 
     /**
      * Checks if the Home page is open by verifying the visibility of the title.
      * @return the current HomePage instance
      */
-
     public HomePage checkHomePageIsOpen() {
-        assertTrue("Home page isn't open", homePageTitle.isDisplayed());
+        assertThat(homePageTitle).isVisible();
         return this;
     }
 
@@ -29,21 +28,19 @@ public class HomePage extends BasePage {
      * Clicks on the sandbox dropdown to reveal its items.
      * @return the current HomePage instance
      */
-
     public HomePage clickSandBoxDropdown() {
-        assertTrue("Dropdown 'Песочница' isn't available", sandboxDropdown.isDisplayed());
-        sandboxDropdown.click();
+        assertThat(sandBoxDropdown).isVisible();
+        sandBoxDropdown.click();
         return this;
     }
 
     /**
-     * Clicks on the 'Goods' item in the dropdown menu to navigate to the Food page.
+     * Clicks on the 'Товары' item in the dropdown menu to navigate to the Food page.
      * @return the FoodPage instance representing the Food page
      */
-
-    public FoodPage clickDropdownItemGoods() {
-        assertTrue("Dropdown item 'Товары' isn't available", dropdownItemGoods.isDisplayed());
-        dropdownItemGoods.click();
-        return pageManager.getFoodPage();
+    public FoodPage clickDropdownItemGoods(Page page) {
+        assertThat(dropdownGoods).isVisible();
+        dropdownGoods.click();
+        return pageManager.getFoodPage(page);
     }
 }

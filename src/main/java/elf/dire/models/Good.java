@@ -1,6 +1,6 @@
 package elf.dire.models;
 
-import com.ibs.models.enums.GoodType;
+import elf.dire.models.enums.GoodType;
 
 public class Good {
     private int id;

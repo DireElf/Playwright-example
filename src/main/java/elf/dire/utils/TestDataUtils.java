@@ -1,10 +1,10 @@
-package com.ibs.utils;
+package elf.dire.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibs.managers.PropManager;
-import com.ibs.models.Good;
+import elf.dire.managers.PropManager;
+import elf.dire.models.Good;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.ibs.utils.constants.PropConst.PATH_TO_TEST_RESOURCES;
+import static elf.dire.utils.constants.PropConst.PATH_TO_TEST_RESOURCES;
 
 public class TestDataUtils {
     private static final PropManager propManager = PropManager.getPropManager();

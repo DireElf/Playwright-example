@@ -4,14 +4,18 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import elf.dire.managers.PageManager;
+import elf.dire.managers.PropManager;
 import org.junit.jupiter.api.*;
 
 public class BaseTest {
-    static Playwright playwright;
-    static Browser browser;
+    protected static PropManager propManager = PropManager.getPropManager();
+    protected static PageManager pageManager = PageManager.getPageManager();
+    protected static Playwright playwright;
+    protected static Browser browser;
 
-    BrowserContext context;
-    Page page;
+    protected BrowserContext context;
+    protected Page page;
 
     @BeforeAll
     static void launchBrowser() {

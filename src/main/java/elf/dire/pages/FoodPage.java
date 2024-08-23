@@ -1,91 +1,68 @@
 package elf.dire.pages;
 
-import com.ibs.managers.PageManager;
-import com.ibs.ui.base_page.BasePage;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import elf.dire.pages.base_page.BasePage;
-import io.qameta.allure.Step;
-import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
-
-import static com.ibs.utils.WebDriverUtils.setExplicitlyWait;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FoodPage extends BasePage {
-//    @FindBy(tagName = "h5")
-//    private WebElement tableHeader;
-    Locator tableHeader = Locator.
-//    @FindBy(tagName = "table")
-//    private WebElement table;
-//    @FindBy(xpath = "//tr/th[text()='Наименование']")
-//    private WebElement goodName;
-//    @FindBy(xpath = "//tr/th[text()='Тип']")
-//    private WebElement goodType;
-//    @FindBy(xpath = "//tr/th[text()='Экзотический']")
-//    private WebElement isGoodExotic;
-//
-//    @FindBy(xpath = "//div[@class='modal-content']")
-//    private WebElement modalContent;
-//
-//    @FindBy(xpath = "//button[text()='Добавить']")
-//    private WebElement buttonAdd;
-//
-//    @FindBy(xpath = "//th[@scope='row']")
-//    private List<WebElement> tableRowsNumbers;
-
+    private final Locator tableHeader = page.getByText("Список товаров");
+    private final Locator table = page.locator("table");
+    private final Locator goodName = page.locator("//tr/th[text()='Наименование']");
+    private final Locator goodType = page.locator("//tr/th[text()='Тип']");
+    private final Locator isGoodExotic = page.locator("//tr/th[text()='Экзотический']");
+    private final Locator buttonAdd = page.locator("//button[text()='Добавить']");
+    private final Locator tableRowsNumber = page.locator("//th[@scope='row']");
     private int tableRowsCount;
 
+    public FoodPage(Page page) {
+        super(page);
+    }
+
     /**
-     * Checks if the Food page is open by verifying the visibility of the table header.
+     * Checks if the Food page is open by verifying the table header.
+     *
      * @return the current FoodPage instance
      */
-
     public FoodPage checkFoodPageIsOpen() {
-        assertTrue("Page /food isn't displayed", tableHeader.isDisplayed());
+        assertTrue(tableHeader.isVisible());
         return this;
     }
 
     /**
      * Validates the presence and correctness of the table columns on the Food page.
+     *
      * @return the current FoodPage instance
      */
-
     public FoodPage checkTableColumnsNames() {
-        assertTrue("Goods table isn't displayed", table.isDisplayed());
-        assertEquals("Наименование", goodName.getText());
-        assertEquals("Тип", goodType.getText());
-        assertEquals("Экзотический", isGoodExotic.getText());
+        assertThat(table).isVisible();
+        assertThat(goodName).hasText("Наименование");
+        assertThat(goodType).hasText("Тип");
+        assertThat(isGoodExotic).hasText("Экзотический");
         return this;
     }
 
     /**
      * Clicks the "Add" button to open a modal window for adding a new item.
+     *
      * @return the ModalWindow instance representing the modal dialog
      */
-
-    public ModalWindow clickButtonAdd() {
-        tableRowsCount = tableRowsNumbers.size();
-        assertTrue("Button 'Добавить' isn't displayed", buttonAdd.isDisplayed());
+    public ModalWindow clickButtonAdd(Page page) {
+        tableRowsCount = tableRowsNumber.count();
+        assertThat(buttonAdd).isVisible();
         buttonAdd.click();
-        setExplicitlyWait(5L).until(ExpectedConditions.visibilityOf(modalContent));
-        return PageManager.getPageManager().getModalWindow();
+        return pageManager.getModalWindow(page);
     }
 
     /**
      * Checks if a new item has been added to the table by comparing the row count before and after refresh.
+     *
      * @return the current FoodPage instance
      */
-
     public FoodPage checkIfGoodAdded() {
-        driverManager.getWebDriver().navigate().refresh();
-        setExplicitlyWait(5L).until(ExpectedConditions.visibilityOf(table));
-        Assert.assertEquals(++tableRowsCount, tableRowsNumbers.size());
+        assertThat(tableRowsNumber).hasCount(++tableRowsCount);
         return this;
     }
 
@@ -98,17 +75,13 @@ public class FoodPage extends BasePage {
      * @return the current instance of the FoodPage.
      * @throws AssertionError if the content of the last row does not match the provided parameters.
      */
-
     public FoodPage checkLastRowContent(String goodName, String goodType, boolean isExotic) {
-        By lastAddedRowXpath = By
-                .xpath(
-                        "//th[@scope='row' and text()='" + tableRowsCount +"']/following-sibling::td"
-                );
-        List<WebElement> rowContent = driverManager.getWebDriver().findElements(lastAddedRowXpath);
-        Assert.assertEquals("Good name isn't valid", goodName, rowContent.get(0).getText());
-        Assert.assertEquals("Good type isn't valid", goodType, rowContent.get(1).getText());
-        Assert.assertEquals("Exotic type isn't valid", isExotic,
-                Boolean.valueOf(rowContent.get(2).getText()));
+        Locator lastAddedRowXpath = page.locator(
+                "//th[@scope='row' and text()='" + tableRowsCount + "']/following-sibling::td");
+
+        assertThat(lastAddedRowXpath.nth(1)).hasText(goodName);
+        assertThat(lastAddedRowXpath.nth(2)).hasText(goodType);
+        assertThat(lastAddedRowXpath.nth(1)).hasText(String.valueOf(isExotic));
         return this;
     }
 }
