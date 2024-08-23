@@ -1,7 +1,7 @@
 package elf.dire.tests;
 
 import elf.dire.models.Good;
-import elf.dire.pages.HomePage;
+import elf.dire.pages.base_page.BasePage;
 import elf.dire.tests.base_test.BaseTest;
 import elf.dire.utils.TestDataUtils;
 import org.junit.jupiter.api.Test;
@@ -13,26 +13,26 @@ public class AddGoodTest extends BaseTest {
     private final Good vegetableNonExotic = TestDataUtils.getGoodFromJsonFile("carrot.json");
 
     @Test
-    void testAddFruitExotic() {
-        HomePage homePage = pageManager.getHomePage(page);
+    void testAddVegetableNonExotic() {
+        BasePage.setPage(page);
         page.navigate(propManager.getProperty(TEST_APP_URL));
-        homePage
+        pageManager.getHomePage()
                 .checkHomePageIsOpen()
                 .clickSandBoxDropdown()
-                .clickDropdownItemGoods(page)
+                .clickDropdownItemGoods()
                 .checkFoodPageIsOpen()
                 .checkTableColumnsNames()
-                .clickButtonAdd(page)
+                .clickButtonAdd()
                 .checkModalWindowIsDisplayed()
                 .checkModalWindowElementsPresence()
-                .fillGoodName(fruitExotic.getName())
-                .selectType(fruitExotic.getType().getValue())
-                .selectCheckBoxExotic(true)
-                .saveNewGood(page)
+                .fillGoodName(vegetableNonExotic.getName())
+//                .selectType(fruitExotic.getType().getValue())
+                .selectCheckBoxExotic(false)
+                .saveNewGood()
                 .checkIfGoodAdded()
                 .checkLastRowContent(
-                        fruitExotic.getName(),
-                        fruitExotic.getType().getValue(),
-                        fruitExotic.isExotic());
+                        vegetableNonExotic.getName(),
+                        vegetableNonExotic.getType().getValue(),
+                        vegetableNonExotic.isExotic());
     }
 }

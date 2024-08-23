@@ -1,9 +1,8 @@
 package elf.dire.managers;
 
-import com.microsoft.playwright.Page;
 import elf.dire.pages.FoodPage;
-import elf.dire.pages.ModalWindow;
 import elf.dire.pages.HomePage;
+import elf.dire.pages.ModalWindow;
 
 public class PageManager {
     private static PageManager pageManager;
@@ -29,9 +28,9 @@ public class PageManager {
      * Returns the HomePage instance. If it doesn't exist, a new HomePage is initialized.
      * @return the HomePage instance
      */
-    public HomePage getHomePage(Page page) {
+    public HomePage getHomePage() {
         if (homePage == null) {
-            homePage = new HomePage(page);
+            homePage = new HomePage();
         }
         return homePage;
     }
@@ -40,9 +39,9 @@ public class PageManager {
      * Returns the FoodPage instance. If it doesn't exist, a new FoodPage is initialized.
      * @return the FoodPage instance
      */
-    public FoodPage getFoodPage(Page page) {
+    public FoodPage getFoodPage() {
         if (foodPage == null) {
-            foodPage = new FoodPage(page);
+            foodPage = new FoodPage();
         }
         return foodPage;
     }
@@ -51,9 +50,9 @@ public class PageManager {
      * Returns the ModalWindow instance. If it doesn't exist, a new ModalWindow is initialized.
      * @return the ModalWindow instance
      */
-    public ModalWindow getModalWindow(Page page) {
+    public ModalWindow getModalWindow() {
         if (modalWindow == null) {
-            modalWindow = new ModalWindow(page);
+            modalWindow = new ModalWindow();
         }
         return modalWindow;
     }

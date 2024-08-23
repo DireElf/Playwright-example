@@ -6,10 +6,9 @@ import elf.dire.managers.PageManager;
 
 public class BasePage {
     protected PageManager pageManager = PageManager.getPageManager();
-    protected Page page;
+    protected static Page page;
 
-    public BasePage(Page page) {
-        this.page = page;
+    public static void setPage(Page page) {
+        BasePage.page = page;
     }
-
 }

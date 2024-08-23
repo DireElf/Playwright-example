@@ -1,7 +1,6 @@
 package elf.dire.pages;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
 import elf.dire.pages.base_page.BasePage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
@@ -13,10 +12,6 @@ public class ModalWindow extends BasePage {
     private final Locator goodTypeDropdown = page.locator("//select[@id='type']");
     private final Locator checkBoxIsExotic = page.locator("//input[@id='exotic']");
     private final Locator buttonSave = page.locator("//button[@id='save']");
-
-    public ModalWindow(Page page) {
-        super(page);
-    }
 
     /**
      * Checks if the modal window is displayed by verifying the visibility of its title.
@@ -60,8 +55,9 @@ public class ModalWindow extends BasePage {
      */
     public ModalWindow selectType(String type) {
         goodTypeDropdown.click();
-        Locator selectedElement = page.locator("//select[@id='type']/option[text()='" + type + "']");
-        selectedElement.click();
+        goodTypeDropdown.click();
+        String xpathToSelected = String.format("//option[text()='%s']", type);
+        page.locator(xpathToSelected).click();
         return this;
     }
 
@@ -85,8 +81,8 @@ public class ModalWindow extends BasePage {
      *
      * @return the FoodPage instance representing the Food page
      */
-    public FoodPage saveNewGood(Page page) {
+    public FoodPage saveNewGood() {
         buttonSave.click();
-        return pageManager.getFoodPage(page);
+        return pageManager.getFoodPage();
     }
 }

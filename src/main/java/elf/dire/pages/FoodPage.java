@@ -1,14 +1,13 @@
 package elf.dire.pages;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
 import elf.dire.pages.base_page.BasePage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FoodPage extends BasePage {
-    private final Locator tableHeader = page.getByText("Список товаров");
+    private final Locator tableHeader = page.locator("//h5[1]");
     private final Locator table = page.locator("table");
     private final Locator goodName = page.locator("//tr/th[text()='Наименование']");
     private final Locator goodType = page.locator("//tr/th[text()='Тип']");
@@ -17,9 +16,6 @@ public class FoodPage extends BasePage {
     private final Locator tableRowsNumber = page.locator("//th[@scope='row']");
     private int tableRowsCount;
 
-    public FoodPage(Page page) {
-        super(page);
-    }
 
     /**
      * Checks if the Food page is open by verifying the table header.
@@ -27,7 +23,7 @@ public class FoodPage extends BasePage {
      * @return the current FoodPage instance
      */
     public FoodPage checkFoodPageIsOpen() {
-        assertTrue(tableHeader.isVisible());
+        assertThat(tableHeader.nth(0)).hasText("Список товаров");
         return this;
     }
 
@@ -49,11 +45,11 @@ public class FoodPage extends BasePage {
      *
      * @return the ModalWindow instance representing the modal dialog
      */
-    public ModalWindow clickButtonAdd(Page page) {
+    public ModalWindow clickButtonAdd() {
         tableRowsCount = tableRowsNumber.count();
         assertThat(buttonAdd).isVisible();
         buttonAdd.click();
-        return pageManager.getModalWindow(page);
+        return pageManager.getModalWindow();
     }
 
     /**
@@ -79,9 +75,9 @@ public class FoodPage extends BasePage {
         Locator lastAddedRowXpath = page.locator(
                 "//th[@scope='row' and text()='" + tableRowsCount + "']/following-sibling::td");
 
-        assertThat(lastAddedRowXpath.nth(1)).hasText(goodName);
-        assertThat(lastAddedRowXpath.nth(2)).hasText(goodType);
-        assertThat(lastAddedRowXpath.nth(1)).hasText(String.valueOf(isExotic));
+        assertThat(lastAddedRowXpath.nth(0)).hasText(goodName);
+        assertThat(lastAddedRowXpath.nth(1)).hasText(goodType);
+        assertThat(lastAddedRowXpath.nth(2)).hasText(String.valueOf(isExotic));
         return this;
     }
 }

@@ -1,9 +1,6 @@
 package elf.dire.tests.base_test;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
 import elf.dire.managers.PageManager;
 import elf.dire.managers.PropManager;
 import org.junit.jupiter.api.*;
@@ -20,7 +17,7 @@ public class BaseTest {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
     }
 
     @AfterAll
