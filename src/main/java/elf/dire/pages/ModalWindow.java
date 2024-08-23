@@ -1,7 +1,9 @@
 package elf.dire.pages;
 
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.options.SelectOption;
 import elf.dire.pages.base_page.BasePage;
+import elf.dire.utils.TestDataUtils;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,10 +56,7 @@ public class ModalWindow extends BasePage {
      * @return the current ModalWindow instance
      */
     public ModalWindow selectType(String type) {
-        goodTypeDropdown.click();
-        goodTypeDropdown.click();
-        String xpathToSelected = String.format("//option[text()='%s']", type);
-        page.locator(xpathToSelected).click();
+        goodTypeDropdown.selectOption(type);
         return this;
     }
 

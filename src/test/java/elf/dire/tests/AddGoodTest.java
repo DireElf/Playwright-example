@@ -6,8 +6,6 @@ import elf.dire.tests.base_test.BaseTest;
 import elf.dire.utils.TestDataUtils;
 import org.junit.jupiter.api.Test;
 
-import static elf.dire.utils.constants.PropConst.TEST_APP_URL;
-
 public class AddGoodTest extends BaseTest {
     private final Good fruitExotic = TestDataUtils.getGoodFromJsonFile("pineapple.json");
     private final Good vegetableNonExotic = TestDataUtils.getGoodFromJsonFile("carrot.json");
@@ -15,7 +13,6 @@ public class AddGoodTest extends BaseTest {
     @Test
     void testAddVegetableNonExotic() {
         BasePage.setPage(page);
-        page.navigate(propManager.getProperty(TEST_APP_URL));
         pageManager.getHomePage()
                 .checkHomePageIsOpen()
                 .clickSandBoxDropdown()
@@ -26,7 +23,7 @@ public class AddGoodTest extends BaseTest {
                 .checkModalWindowIsDisplayed()
                 .checkModalWindowElementsPresence()
                 .fillGoodName(vegetableNonExotic.getName())
-//                .selectType(fruitExotic.getType().getValue())
+                .selectType(vegetableNonExotic.getType().getValue())
                 .selectCheckBoxExotic(false)
                 .saveNewGood()
                 .checkIfGoodAdded()
@@ -34,5 +31,28 @@ public class AddGoodTest extends BaseTest {
                         vegetableNonExotic.getName(),
                         vegetableNonExotic.getType().getValue(),
                         vegetableNonExotic.isExotic());
+    }
+
+    @Test
+    void testAddFruitExotic() {
+        BasePage.setPage(page);
+        pageManager.getHomePage()
+                .checkHomePageIsOpen()
+                .clickSandBoxDropdown()
+                .clickDropdownItemGoods()
+                .checkFoodPageIsOpen()
+                .checkTableColumnsNames()
+                .clickButtonAdd()
+                .checkModalWindowIsDisplayed()
+                .checkModalWindowElementsPresence()
+                .fillGoodName(fruitExotic.getName())
+                .selectType(fruitExotic.getType().getValue())
+                .selectCheckBoxExotic(true)
+                .saveNewGood()
+                .checkIfGoodAdded()
+                .checkLastRowContent(
+                        fruitExotic.getName(),
+                        fruitExotic.getType().getValue(),
+                        fruitExotic.isExotic());
     }
 }

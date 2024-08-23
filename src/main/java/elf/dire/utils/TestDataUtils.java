@@ -5,12 +5,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import elf.dire.managers.PropManager;
 import elf.dire.models.Good;
+import elf.dire.models.enums.GoodType;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import static elf.dire.utils.constants.PropConst.PATH_TO_TEST_RESOURCES;
 
