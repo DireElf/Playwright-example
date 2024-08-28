@@ -1,9 +1,7 @@
 package elf.dire.pages;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.options.SelectOption;
 import elf.dire.pages.base_page.BasePage;
-import elf.dire.utils.TestDataUtils;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;

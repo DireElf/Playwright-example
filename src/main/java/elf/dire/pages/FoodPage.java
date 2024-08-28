@@ -4,7 +4,6 @@ import com.microsoft.playwright.Locator;
 import elf.dire.pages.base_page.BasePage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FoodPage extends BasePage {
     private final Locator tableHeader = page.locator("//h5[1]");

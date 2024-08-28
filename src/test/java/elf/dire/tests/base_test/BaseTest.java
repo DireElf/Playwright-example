@@ -12,7 +12,6 @@ public class BaseTest {
     protected static PageManager pageManager = PageManager.getPageManager();
     protected static Playwright playwright;
     protected static Browser browser;
-
     protected static BrowserContext context;
     protected static Page page;
 
